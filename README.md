@@ -1,6 +1,6 @@
 # Jekyll Workbook
 
-## Make sure to run the following in the `jekyll-workbook` directory
+## Make sure to run the following in the `jekyll-babeljs-workbook` directory
 
 ### Run the following to install jekyll and gulp-cli
 ./setup.sh
