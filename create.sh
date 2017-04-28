@@ -43,7 +43,7 @@ title: $site
 </html>
 DELIM
 
-cat > css/main.scss <<DELIM
+cat > css/main.css <<DELIM
 ---
 ---
 

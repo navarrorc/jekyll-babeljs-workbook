@@ -17,10 +17,13 @@ gulp.task('serve', function(){
 });
 
 gulp.task('webpack-babeljs', function() {
-            return gulp.src('src/entry.js')
-                .pipe(webpackStream( require('./webpack.config.js') ), webpack2)
-                    .pipe(gulp.dest('dist/'));
-                });
+    return gulp.src('src/entry.js')
+        .pipe(webpackStream(require('./webpack.config.js')), webpack2)
+        .on('error', function handleError() {
+            this.emit('end'); // Recover from errors
+        })
+        .pipe(gulp.dest('dist/'));
+});
 
 //gulp.task('default', ['serve', 'build']);
 gulp.task('default', ['webpack-babeljs','serve','build']);
