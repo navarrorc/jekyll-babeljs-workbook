@@ -1,10 +1,28 @@
 var gulp = require('gulp');
+var child = require('child_process');
+var gutil = require('gulp-util');
 var webpackStream = require('webpack-stream');
 var webpack2 = require('webpack');
-var shell = require('gulp-shell');
 var browserSync = require('browser-sync').create();
 
-gulp.task('build', shell.task(['jekyll build --watch']));
+//gulp.task('build', shell.task(['jekyll build --watch']));
+
+gulp.task('jekyll', function() {
+    // see: https://aaronlasseigne.com/2016/02/03/using-gulp-with-jekyll/
+    var jekyll = child.spawn('jekyll', ['build', '--watch']);
+    var jekyllLogger = function(buffer) {
+        buffer.toString()
+            .split(/\n/)
+            .forEach(function(message){
+                if(message) {
+                    gutil.log('Jekyll: ' + message);
+                }
+            });
+    };
+    
+    jekyll.stdout.on('data', jekyllLogger);
+    jekyll.stderr.on('data', jekyllLogger);
+});
 
 gulp.task('serve', function(){
     var options = {
@@ -26,4 +44,5 @@ gulp.task('webpack-babeljs', function() {
 });
 
 //gulp.task('default', ['serve', 'build']);
-gulp.task('default', ['webpack-babeljs','serve','build']);
+// gulp.task('default', ['webpack-babeljs','serve','build']);
+gulp.task('default', ['webpack-babeljs','jekyll','serve']);

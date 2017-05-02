@@ -20,7 +20,7 @@ mkdir css images scripts src dist
 cat >> _config.yml <<DELIM
 
 # Custom Excludes
-exclude: [gulpfile.js, package.json, node_modules, src]
+exclude: [gulpfile.js, package.json, node_modules, src, webpack.config.js]
 DELIM
 
 cat > index.html <<DELIM
@@ -33,6 +33,7 @@ title: $site
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>{{ page.title }}</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/css/main.css" type="text/css" />
 </head>
 <body>
@@ -41,6 +42,7 @@ title: $site
     <script src="/dist/bundle.js"></script>
 </body>
 </html>
+
 DELIM
 
 cat > css/main.css <<DELIM

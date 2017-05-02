@@ -1,7 +1,7 @@
 {
   "name": "username.github.io",
   "version": "1.0.0",
-  "description": "Blog site",
+  "description": "website",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -24,13 +24,15 @@
     "babel-preset-stage-0": "^6.24.1",
     "browser-sync": "^2.16.0",
     "gulp": "^3.9.1",
-    "gulp-shell": "^0.5.2",
     "webpack": "^2.4.1",
     "webpack-dev-server": "^2.4.5",
     "webpack-stream": "^3.2.0"
   },
   "dependencies": {
     "jquery": "^3.2.1",
-    "moment": "^2.18.1"
+    "lodash": "^4.17.4",
+    "moment": "^2.18.1",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4"
   }
 }
