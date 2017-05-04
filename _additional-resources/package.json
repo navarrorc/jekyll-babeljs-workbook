@@ -24,6 +24,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "browser-sync": "^2.16.0",
     "gulp": "^3.9.1",
+    "gulp-watch": "^4.3.11",
     "webpack": "^2.4.1",
     "webpack-dev-server": "^2.4.5",
     "webpack-stream": "^3.2.0"

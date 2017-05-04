@@ -3,18 +3,11 @@
 read -p "website name? " site
 
 jekyll new $site --blank
-#jekyll new $site
 
 cp -a ./_additional-resources/. ./$site/
 
 cd ./$site
-mkdir _includes
-mkdir _sass
-
-mkdir _site #fixes a timing issue with browserSync in gulpfile.js
-touch _site/fix.html
-echo "aabbcc" >> _site/fix.html
-
+mkdir _includes _sass _site
 mkdir css images scripts src dist
 
 cat >> _config.yml <<DELIM
@@ -25,24 +18,23 @@ DELIM
 
 cat > index.html <<DELIM
 ---
-title: $site
+title: my-site
 ---
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>{{ page.title }}</title>
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="/css/main.css" type="text/css" />
+    <title>{{page.title}}</title>
+    <link rel="icon" href="{{site.github.url}}/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="{{site.github.url}}/css/main.css" type="text/css" />
 </head>
 <body>
     <h1>Hello from Jekyll</h1>
     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi, officiis, illum. Architecto, corporis, dolorem vero iure magnam totam numquam ab molestiae voluptatibus natus aperiam quas odio recusandae reprehenderit accusamus! Possimus, inventore officiis itaque doloribus quas praesentium dolorem animi maiores! Perferendis, iusto, aspernatur, unde ut nihil debitis doloribus ex odit commodi hic provident corporis temporibus ipsum. Nemo, perferendis ullam accusamus voluptatem facere rem repudiandae reiciendis odit vel voluptas sunt nobis natus? Recusandae, unde, mollitia provident consequatur sapiente asperiores hic et iure numquam officiis id quam nobis ullam. Temporibus, commodi, quos, dicta reiciendis atque similique explicabo assumenda enim quidem qui animi perferendis.</p>
-    <script src="/dist/bundle.js"></script>
+    <script src="{{site.github.url}}/dist/bundle.js"></script>
 </body>
 </html>
-
 DELIM
 
 cat > css/main.css <<DELIM

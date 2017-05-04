@@ -1,9 +1,10 @@
-var gulp = require("gulp");
-var child = require("child_process");
-var gutil = require("gulp-util");
-var webpackStream = require("webpack-stream");
-var webpack2 = require("webpack");
-var browserSync = require("browser-sync").create();
+var gulp = require("gulp"),
+    watch = require("gulp-watch"),
+    child = require("child_process"),
+    gutil = require("gulp-util"),
+    webpackStream = require("webpack-stream"),
+    webpack2 = require("webpack"),
+    browserSync = require("browser-sync").create();
 
 gulp.task("jekyll", function() {
     // see: https://aaronlasseigne.com/2016/02/03/using-gulp-with-jekyll/
@@ -29,8 +30,8 @@ gulp.task("serve", function(){
         port: process.env.PORT || 8080,
         ui: { port: 8081 }
     };
-    browserSync.init(options);
-    gulp.watch("_site/**/*.*").on("change", browserSync.reload);
+    browserSync.init(options);    
+    watch("_site/**/*", browserSync.reload); // see: http://bit.ly/2qJeZ3d
 });
 
 gulp.task("webpack-babeljs", function() {
