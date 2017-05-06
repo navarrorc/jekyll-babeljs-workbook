@@ -33,7 +33,13 @@ var devConfig  = {
             
             // Loaders for other file types can go here
         ]
-    }
+    },
+    plugins: [
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery'
+        })
+    ]
 };
 
 var prodConfig = Object.create(devConfig);
@@ -90,7 +96,8 @@ gulp.task("serve", function(){
     var options = {
         server: {baseDir: "_site/"},
         port: process.env.PORT || 8080,
-        ui: { port: 8081 }
+        ui: { port: 8081 },
+        ghostMode: false
     };
     browserSync.init(options);    
     watch("_site/**/*", browserSync.reload); // see: http://bit.ly/2qJeZ3d

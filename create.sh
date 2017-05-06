@@ -8,7 +8,7 @@ cp -a ./_additional-resources/. ./$site/
 
 cd ./$site
 mkdir _includes _sass _site
-mkdir css images scripts src dist
+mkdir css scripts src dist
 
 cat >> _config.yml <<DELIM
 
@@ -72,7 +72,6 @@ h3 ~ span {
 
 #description {
     display: none;
-    text-align: center;
 }
 
 .logo {
@@ -129,22 +128,22 @@ function getRandomNumber(min, max){
 
 
 // jQuery Cheat Sheet: http://bit.ly/2dq090t
-$("h1, h3, p").css("color", "#F8F8F8");
+\$("h1, h3, p").css("color", "#F8F8F8");
 
-var $h3 = $("h3");
-$h3.click(function(){
-    $("#description").fadeToggle("slow");
+var \$h3 = \$("h3");
+\$h3.click(function(){
+    \$("#description").fadeToggle("slow");
 });
 
-$("#button1").click(function(){
+\$("#button1").click(function(){
     var randomNumber = getRandomNumber();
-    $("#output").show().text(randomNumber); 
+    \$("#output").show().text(randomNumber); 
 });
 
-$("#button2").click(function(){
+\$("#button2").click(function(){
     // see: https://mzl.la/1uDCHOb
     var randomNumber = getRandomNumber(0, 20); // whole number between 0 and 19
-    $("#output").show().text(randomNumber); 
+    \$("#output").show().text(randomNumber); 
 });
 DELIM
 
