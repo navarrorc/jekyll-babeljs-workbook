@@ -3,8 +3,70 @@ var gulp = require("gulp"),
     child = require("child_process"),
     gutil = require("gulp-util"),
     webpackStream = require("webpack-stream"),
-    webpack2 = require("webpack"),
-    browserSync = require("browser-sync").create();
+    webpack = require("webpack"),
+    browserSync = require("browser-sync").create(),
+    runSequence  = require("run-sequence").use(gulp);
+    
+var isProd = true;
+    
+// see: http://bit.ly/2ph6SJZ    
+var devConfig  = {
+    watch: true,
+    devtool: "cheap-eval-source-map",
+    output: {
+        filename: "bundle.js",
+    },
+    module: {
+        rules: [
+            {
+                test: /\.jsx$/,
+                exclude: /(node_modules)/,
+                use: [
+                        {
+                        loader: "babel-loader",
+                        options: {
+                            presets: ["es2015", "stage-0", "react"]
+                        }
+                    }
+                ]
+            },
+            
+            // Loaders for other file types can go here
+        ]
+    }
+};
+
+var prodConfig = Object.create(devConfig);
+prodConfig.plugins = [];
+prodConfig.plugins = prodConfig.plugins.concat(
+  new webpack.DefinePlugin({
+    "process.env":{
+        "NODE_ENV": JSON.stringify("production")
+      }
+  }),
+  new webpack.optimize.UglifyJsPlugin({
+      compress:{
+        warnings: false
+      },
+      sourceMap: true
+  })
+);
+prodConfig.devtool = "source-map";
+prodConfig.output = Object.create({
+    filename: "bundle.js"
+});
+prodConfig.output.filename = prodConfig.output.filename.replace(/\.js$/, ".min.js");
+
+
+gulp.task("webpack", function() {
+    var webpackConfig = isProd ? prodConfig : devConfig;
+    return gulp.src("src/app.js")
+        .pipe(webpackStream(webpackConfig, webpack))
+        .on("error", function handleError() {
+            this.emit("end"); // Recover from errors
+        })
+        .pipe(gulp.dest("dist/"));
+});
 
 gulp.task("jekyll", function() {
     // see: https://aaronlasseigne.com/2016/02/03/using-gulp-with-jekyll/
@@ -34,13 +96,12 @@ gulp.task("serve", function(){
     watch("_site/**/*", browserSync.reload); // see: http://bit.ly/2qJeZ3d
 });
 
-gulp.task("webpack-babeljs", function() {
-    return gulp.src("src/entry.js")
-        .pipe(webpackStream(require("./webpack.config.js")), webpack2)
-        .on("error", function handleError() {
-            this.emit("end"); // Recover from errors
-        })
-        .pipe(gulp.dest("dist/"));
-});
+gulp.task("build", function(callback) {
+	isProd = true;
+	return runSequence("jekyll", "serve", "webpack");
+} );
 
-gulp.task("default", ["webpack-babeljs","jekyll","serve"]);
+gulp.task("default", function(callback){
+    isProd = false;
+    return runSequence("jekyll", "serve", "webpack");
+})
