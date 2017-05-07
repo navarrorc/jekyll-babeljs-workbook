@@ -22,12 +22,11 @@ title: $site
 ---
 <!doctype html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>{{ page.title }}</title>
-    <link rel="icon" href="{{ site.github.url }}/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="{{ site.github.url }}/css/main.css" type="text/css" />
 </head>
 
@@ -40,12 +39,11 @@ title: $site
     </div>
     <div class="buttons">
         <button id="button1">A random Integer</button>
-        <button id="button2">A random Integer in a Range</button>
+        <button id="button2">A random Integer between 1 and 20</button>
     </div>
     <div id="output"></div>
-    <script src="{{ site.github.url }}/dist/bundle.js"></script>
+    <script src="{{ site.github.url }}/dist/bundle.min.js"></script>
 </body>
-
 </html>
 DELIM
 
@@ -114,7 +112,6 @@ cat > src/app.js <<DELIM
 /* global $ */
 import moment from "moment";
 
-
 var rightNow = moment().format("MMMM Do YYYY, h:mm:ss a");
 console.log(rightNow);
 // i.e. "October 23rd 2016, 9:30:24 pm"
@@ -142,7 +139,7 @@ var \$h3 = \$("h3");
 
 \$("#button2").click(function(){
     // see: https://mzl.la/1uDCHOb
-    var randomNumber = getRandomNumber(0, 20); // whole number between 0 and 19
+    var randomNumber = getRandomNumber(1, 21); // whole number between 0 and 19
     \$("#output").show().text(randomNumber); 
 });
 DELIM

@@ -1,37 +1,73 @@
 var gulp = require("gulp"),
+    gutil = require('gulp-util'),
     watch = require("gulp-watch"),
     child = require("child_process"),
-    gutil = require("gulp-util"),
-    webpackStream = require("webpack-stream"),
     webpack = require("webpack"),
     browserSync = require("browser-sync").create(),
-    runSequence  = require("run-sequence").use(gulp);
+    runSequence  = require("run-sequence").use(gulp),
+    path = require("path"),
+    _ = require("lodash");
     
 var isProd = true;
-    
-// see: http://bit.ly/2ph6SJZ    
+
+function onBuild(done) {
+    return function (err, stats) {
+        if (err) {
+            gutil.log('Error', err);
+        }
+        else {
+            // see: https://webpack.js.org/configuration/stats/
+            gutil.log('onBuild', stats.toString(
+                {
+                    colors: true,
+                    hash: false,
+                    version: false,
+                    timings: false,
+                    assets: true,
+                    chunks: false,
+                    chunkModules: false,
+                    modules: false,
+                    children: false,
+                    cached: false,
+                    reasons: false,
+                    source: false,
+                    errorDetails: true,
+                    chunkOrigins: false,
+                    version: true
+                }
+            ));
+        }
+
+        if (done) {
+            done();
+        }
+    }
+}
+  
+/**
+ * Dev Webpack Configuration
+ * see: http://bit.ly/2ph6SJZ 
+ */
 var devConfig  = {
+    entry: './src/app.js',
     watch: true,
     devtool: "cheap-eval-source-map",
     output: {
         filename: "bundle.js",
+        path: path.resolve(__dirname, "dist")
     },
     module: {
         rules: [
             {
-                test: /\.jsx$/,
-                exclude: /(node_modules)/,
-                use: [
-                        {
-                        loader: "babel-loader",
-                        options: {
-                            presets: ["env", "react"]
-                        }
+                test: /\.jsx?$/,
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: ["env", "react"]
                     }
-                ]
-            },
-            
-            // Loaders for other file types can go here
+                }
+            }
         ]
     },
     plugins: [
@@ -42,36 +78,37 @@ var devConfig  = {
     ]
 };
 
-var prodConfig = Object.create(devConfig);
-prodConfig.plugins = [];
+/**
+ * Production Webpack Configuration
+ */
+var prodConfig = _.cloneDeep(devConfig); // see: http://bit.ly/2pojyQh
 prodConfig.plugins = prodConfig.plugins.concat(
-  new webpack.DefinePlugin({
-    "process.env":{
-        "NODE_ENV": JSON.stringify("production")
-      }
-  }),
-  new webpack.optimize.UglifyJsPlugin({
-      compress:{
-        warnings: false
-      },
-      sourceMap: true
-  })
+    new webpack.DefinePlugin({
+        "process.env": {
+            "NODE_ENV": JSON.stringify("production")
+        }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+        compress: {
+            warnings: false
+        },
+        sourceMap: true
+    })
 );
 prodConfig.devtool = "source-map";
-prodConfig.output = Object.create({
-    filename: "bundle.js"
-});
 prodConfig.output.filename = prodConfig.output.filename.replace(/\.js$/, ".min.js");
 
 
-gulp.task("webpack", function() {
+/**
+ * Tasks
+ */
+gulp.task("webpack", function() {    
+    console.log("isProd:", isProd);
     var webpackConfig = isProd ? prodConfig : devConfig;
-    return gulp.src("src/app.js")
-        .pipe(webpackStream(webpackConfig, webpack))
-        .on("error", function handleError() {
-            this.emit("end"); // Recover from errors
-        })
-        .pipe(gulp.dest("dist/"));
+    console.log(JSON.stringify(webpackConfig,null,4));
+    webpack(webpackConfig).watch(100, function (err, status) {
+        onBuild()(err, status);
+    })
 });
 
 gulp.task("jekyll", function() {
@@ -108,7 +145,7 @@ gulp.task("build", function(callback) {
 	return runSequence("jekyll", "serve", "webpack");
 });
 
-gulp.task("default", function(callback){
+gulp.task("default", function (callback) {
     isProd = false;
     return runSequence("jekyll", "serve", "webpack");
 })
