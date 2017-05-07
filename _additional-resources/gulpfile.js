@@ -25,7 +25,7 @@ var devConfig  = {
                         {
                         loader: "babel-loader",
                         options: {
-                            presets: ["es2015", "stage-0", "react"]
+                            presets: ["env", "react"]
                         }
                     }
                 ]
@@ -106,7 +106,7 @@ gulp.task("serve", function(){
 gulp.task("build", function(callback) {
 	isProd = true;
 	return runSequence("jekyll", "serve", "webpack");
-} );
+});
 
 gulp.task("default", function(callback){
     isProd = false;
