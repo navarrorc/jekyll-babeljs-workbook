@@ -42,7 +42,7 @@ title: $site
         <button id="button2">A random Integer between 1 and 20</button>
     </div>
     <div id="output"></div>
-    <script src="{{ site.github.url }}/dist/bundle.min.js"></script>
+    <script src="{{ site.github.url }}/dist/bundle.js"></script>
 </body>
 </html>
 DELIM

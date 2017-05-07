@@ -102,10 +102,8 @@ prodConfig.output.filename = prodConfig.output.filename.replace(/\.js$/, ".min.j
 /**
  * Tasks
  */
-gulp.task("webpack", function() {    
-    console.log("isProd:", isProd);
-    var webpackConfig = isProd ? prodConfig : devConfig;
-    console.log(JSON.stringify(webpackConfig,null,4));
+gulp.task("webpack", function() {        
+    var webpackConfig = isProd ? prodConfig : devConfig;    
     webpack(webpackConfig).watch(100, function (err, status) {
         onBuild()(err, status);
     })
