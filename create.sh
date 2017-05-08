@@ -13,7 +13,7 @@ mkdir css scripts src dist
 cat >> _config.yml <<DELIM
 
 # Custom Excludes
-exclude: [gulpfile.js, package.json, node_modules, src, webpack.config.js]
+exclude: [gulpfile.js, package.json, node_modules, src]
 DELIM
 
 cat > index.html <<DELIM
