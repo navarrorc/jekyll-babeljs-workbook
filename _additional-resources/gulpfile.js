@@ -54,7 +54,7 @@ var devConfig  = {
     devtool: "cheap-eval-source-map",
     output: {
         filename: "bundle.js",
-        path: path.resolve(__dirname, "dist")
+        path: path.resolve(__dirname, "js")
     },
     module: {
         rules: [

@@ -8,7 +8,7 @@ cp -a ./_additional-resources/. ./$site/
 
 cd ./$site
 mkdir _includes _sass _site
-mkdir css scripts src dist
+mkdir css js src
 
 cat >> _config.yml <<DELIM
 
@@ -42,7 +42,7 @@ title: $site
         <button id="button2">A random Integer between 1 and 20</button>
     </div>
     <div id="output"></div>
-    <script src="{{ site.github.url }}/dist/bundle.js"></script>
+    <script src="{{ site.github.url }}/js/bundle.js"></script>
 </body>
 </html>
 DELIM
