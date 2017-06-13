@@ -1,5 +1,5 @@
- #!/bin/bash         
-
-gem install jekyll -v '3.4.3'
+ #!/bin/bash 
+ 
 gem install bundler
+bundle install
 npm install --global gulp-cli
