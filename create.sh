@@ -111,11 +111,6 @@ DELIM
 
 cat > src/app.js <<DELIM
 /* global $ */
-import moment from "moment";
-
-var rightNow = moment().format("MMMM Do YYYY, h:mm:ss a");
-console.log(rightNow);
-// i.e. "October 23rd 2016, 9:30:24 pm"
 
 function getRandomNumber(min, max){
     if (min >=0 && max > min){
