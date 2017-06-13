@@ -26,6 +26,7 @@ title: $site
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>{{ page.title }}</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="{{ site.github.url }}/css/main.css" type="text/css" />
 </head>
