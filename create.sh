@@ -48,7 +48,11 @@ title: $site
 </html>
 DELIM
 
-cat > css/main.css <<DELIM
+cat > css/main.scss <<DELIM
+---
+---
+
+
 /* CSS Styles are defined below */
 body {
     font-family: Sans-serif;
