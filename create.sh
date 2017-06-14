@@ -13,7 +13,7 @@ mkdir css js src
 cat >> _config.yml <<DELIM
 
 # Custom Excludes
-exclude: [gulpfile.js, package.json, node_modules, src]
+exclude: ["Gemfile", "Gemfile.lock", "gulpfile.js", "package.json", "firebase.json", "vendor/", "node_modules/", "src/", "script/"]
 DELIM
 
 cat > index.html <<DELIM
