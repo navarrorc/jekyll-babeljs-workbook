@@ -4,7 +4,6 @@ var gulp = require("gulp"),
     child = require("child_process"),
     webpack = require("webpack"),
     browserSync = require("browser-sync").create(),
-    runSequence  = require("run-sequence").use(gulp),
     path = require("path"),
     _ = require("lodash");
     
@@ -21,7 +20,7 @@ function onBuild(done) {
                 {
                     colors: true,
                     hash: false,
-                    version: false,
+                    version: true,
                     timings: false,
                     assets: true,
                     chunks: false,
@@ -32,8 +31,7 @@ function onBuild(done) {
                     reasons: false,
                     source: false,
                     errorDetails: true,
-                    chunkOrigins: false,
-                    version: true
+                    chunkOrigins: false
                 }
             ));
         }
@@ -41,7 +39,7 @@ function onBuild(done) {
         if (done) {
             done();
         }
-    }
+    };
 }
   
 /**
@@ -64,7 +62,7 @@ var devConfig  = {
                 use: {
                     loader: "babel-loader",
                     options: {
-                        presets: ["env", "react"]
+                        presets: ["env"]
                     }
                 }
             }
@@ -103,10 +101,14 @@ prodConfig.output.filename = prodConfig.output.filename.replace(/\.js$/, ".min.j
  * Tasks
  */
 gulp.task("webpack", function() {        
-    var webpackConfig = isProd ? prodConfig : devConfig;    
+    var webpackConfig = isProd ? prodConfig : devConfig;  
+    var execute = function(){
+        gulp.start("jekyll");
+        gulp.start("serve");
+    };
     webpack(webpackConfig).watch(100, function (err, status) {
-        onBuild()(err, status);
-    })
+        onBuild(execute)(err, status);
+    });
 });
 
 gulp.task("jekyll", function() {
@@ -132,18 +134,20 @@ gulp.task("serve", function(){
         server: {baseDir: "_site/"},
         port: process.env.PORT || 8080,
         ui: { port: 8081 },
-        ghostMode: false
+        ghostMode: false,
+        notify: true,
+        logLevel: "silent"
     };
-    browserSync.init(options);    
+    browserSync.init(options, function() { /* see: http://bit.ly/2std0F1 */ });    
     watch("_site/**/*", browserSync.reload); // see: http://bit.ly/2qJeZ3d
 });
 
 gulp.task("build", function(callback) {
 	isProd = true;
-	return runSequence("jekyll", "serve", "webpack");
+	gulp.start("webpack");
 });
 
 gulp.task("default", function (callback) {
     isProd = false;
-    return runSequence("jekyll", "serve", "webpack");
+    gulp.start("webpack");
 })
