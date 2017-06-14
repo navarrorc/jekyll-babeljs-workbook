@@ -1,6 +1,5 @@
 var gulp = require("gulp"),
     gutil = require('gulp-util'),
-    watch = require("gulp-watch"),
     child = require("child_process"),
     webpack = require("webpack"),
     browserSync = require("browser-sync").create(),
@@ -114,13 +113,16 @@ gulp.task("webpack", function() {
 gulp.task("jekyll", function() {
     // see: https://aaronlasseigne.com/2016/02/03/using-gulp-with-jekyll/
     var exec = process.platform === "win32" ? "jekyll.bat" : "jekyll"; // see: http://bit.ly/2pzQeHk
-    var jekyll = child.spawn(exec, ["build", "--watch"]); 
+    var jekyll = child.spawn(exec, ["build", "--watch", "--incremental", "--drafts"]); 
     var jekyllLogger = function(buffer) {
         buffer.toString()
             .split(/\n/)
             .forEach(function(message){
                 if(message) {
-                    gutil.log("Jekyll: " + message);
+                    // if (message !== previousMessage){
+                        gutil.log("Jekyll: " + message);
+                    // }
+                    // previousMessage = message;
                 }
             });
     };
@@ -131,15 +133,13 @@ gulp.task("jekyll", function() {
 
 gulp.task("serve", function(){
     var options = {
-        server: {baseDir: "_site/"},
+        files: ["_site/**"],
+        server: {baseDir: "_site"},
         port: process.env.PORT || 8080,
         ui: { port: 8081 },
-        ghostMode: false,
-        notify: true,
-        logLevel: "silent"
+        ghostMode: false
     };
     browserSync.init(options, function() { /* see: http://bit.ly/2std0F1 */ });    
-    watch("_site/**/*", browserSync.reload); // see: http://bit.ly/2qJeZ3d
 });
 
 gulp.task("build", function(callback) {
@@ -150,4 +150,4 @@ gulp.task("build", function(callback) {
 gulp.task("default", function (callback) {
     isProd = false;
     gulp.start("webpack");
-})
+});
