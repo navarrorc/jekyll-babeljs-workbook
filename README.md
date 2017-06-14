@@ -1,4 +1,4 @@
-# Jekyll Workbook
+# Jekyll with Babel.js Workbook
 
 ## Make sure to run the following in the `jekyll-babeljs-workbook` directory
 
