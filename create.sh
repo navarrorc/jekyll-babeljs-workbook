@@ -4,7 +4,7 @@ read -p "website name? " site
 
 jekyll new $site --blank
 
-cp -a ./_additional-resources/. ./$site/
+cp -a ./.resources/. ./$site/
 
 cd ./$site
 mkdir _includes _sass _site
