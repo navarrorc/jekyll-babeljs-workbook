@@ -119,10 +119,7 @@ gulp.task("jekyll", function() {
             .split(/\n/)
             .forEach(function(message){
                 if(message) {
-                    // if (message !== previousMessage){
-                        gutil.log("Jekyll: " + message);
-                    // }
-                    // previousMessage = message;
+                    gutil.log("Jekyll: " + message);
                 }
             });
     };
