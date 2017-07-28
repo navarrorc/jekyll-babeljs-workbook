@@ -13,7 +13,7 @@ mkdir css js src
 cat >> _config.yml <<DELIM
 
 # Custom Excludes
-exclude: ["Gemfile", "Gemfile.lock", "gulpfile.js", "package.json", "firebase.json", "vendor/", "node_modules/", "src/", "script/"]
+exclude: ["Gemfile", "Gemfile.lock", "gulpfile.js", "package.json", "firebase.json", "vendor/", "node_modules/", "src/", "package-lock.json"]
 DELIM
 
 cat > index.html <<DELIM
@@ -24,7 +24,7 @@ title: $site
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ page.title }}</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -33,9 +33,9 @@ title: $site
 
 <body>
     <h1>Let's learn HTML, CSS and JavaScript using Jekyll</h1>
-    <h3>What is Jekyll?</h3> <span><< Click the question</span>
+    <h3>What is Jekyll?</h3> <span>&lt;&lt; Click the question</span>
     <div id="description">
-        <img class="logo" src="{{ site.github.url }}/images/logo-2x.png">
+        <img class="logo" src="{{ site.github.url }}/images/logo-2x.png" alt="logo image">
         <p>A static site generator that converts templates and raw text files into a plain HTML website that's ready to be publish on any web server. </p>
     </div>
     <div class="buttons">
